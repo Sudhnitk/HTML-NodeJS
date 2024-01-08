@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>File Upload</title>
+  <style>
+    /* Basic styling for layout purposes */
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: left;
+    }
+    .container1 {
+      display: flex;
+      flex-direction: column;
+      align-items: left;
+    
+    }SECTION > DIV {
+    float: left;
+    padding: 4px;
+}
+SECTION > DIV + DIV {
+    width: 40px;
+    text-align: center;
+}
+    SELECT, INPUT[type="text"] {
+    width: 160px;
+    box-sizing: border-box;
+}
+    .block-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      width: 80%;
+      margin-top: 20px;
+      margin-left: 20px;
+    }
+    .block {
+      width: 45%;
+      border: 1px solid #ccc;
+      padding: 20px;
+      margin: 5px;
+    }
+    .block1 {
+      width: 100%;
+      border: 1px solid #ccc;
+      padding: 20px;
+      margin: 5px;
+    }
+    .button-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+    }
+    .next-button,
+    .cancel-button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .next-button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      margin-right: 10px;
+    }
+    .cancel-button {
+      color: red;
+      border: none;
+      background-color: transparent;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <p >Import Products<p>
+    <div class="block-container">
+      <div class="block">
+        <h3>Step 1</h3>
+        <p>Choose a file to import:</p>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+          <input type="file" name="file">
+          <button type="submit">Upload</button>
+          <p>Supported File Type(S) : .CSV, .JSON</p>
+        </form>
+      </div>
+      <div class="block">
+        <h3>Step 2: Specify Format</h3>
+        <p>file type:</p>
+        <form action="/specify-format" method="post">
+          <label>
+            <input type="radio" name="fileType" value="csv"> CSV
+          </label>
+          <label>
+            <input type="radio" name="fileType" value="json"> JSON
+          </label>
+        </form>
+        <p>Select character encoding:</p>
+        <select name="charEncoding">
+          <option value="UTF-8">UTF-8</option>
+          <option value="ISO-8859-1">ISO-8859-1</option>
+          <!-- Add more character encoding options if needed -->
+        </select>
+        <p>Select delimiter:</p>
+        <select name="delimiter">
+          <option value=",">Comma (,)</option>
+          <option value=";">Semicolon (;)</option>
+          <option value="|">Pipe (|)</option>
+          <option value="tab">Tab</option>
+          <!-- Add other delimiter options as needed -->
+        </select>
+        <p> Has Header
+            <input type="checkbox" name="step3Checkbox">
+        </p>
+      </div>
+      <div class="block1">
+        <h3>
+            <input type="checkbox" id="headerCheckbox"> Step 3: Display Handling </h3>
+        <p>Select the feilds to be displayed </p>
+        <form action="/select-details" method="post">
+         
+          <section>
+            <div class ="container">
+              <select id="leftValues" size="9" multiple>
+                <option value="id">ID</option>
+                <option value="subCategory">Sub Category</option>
+                <option value="title">Title</option>
+                <option value="price">Price</option>
+                <option value="popularity">Popularity</option>
+                <option value="description">Description</option>
+                <option value="rating">Rating</option>
+                <option value="UTMsource">UTM Source</option>
+                <option value="UTMmedium">UTM Medium</option>
+
+
+                <!-- Add other options as needed -->
+              </select>
+            </div>
+            <div class ="container1">
+              <input type="button" id="btnLeft" value="&lt;&lt;" />
+              <input type="button" id="btnRight" value="&gt;&gt;" />
+            </div>
+            <div class ="container2">
+              <select id="rightValues" size="9" multiple>
+                <!-- Options will be moved here -->
+              </select>
+              
+            </div>
+          </section>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="button-container">
+    <button class="next-button">Next</button>
+    <button class="cancel-button">Cancel</button>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $("#btnLeft").click(function () {
+        var selectedItem = $("#rightValues option:selected");
+        $("#leftValues").append(selectedItem);
+      });
+
+      $("#btnRight").click(function () {
+        var selectedItem = $("#leftValues option:selected");
+        $("#rightValues").append(selectedItem);
+      });
+
+     
+      });
+    
+  </script>
+</body>
+</html>
